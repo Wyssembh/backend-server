@@ -1,0 +1,44 @@
+name: Build & Deploy React Native App (Windows)
+
+on:
+  push:
+    branches:
+      - main  # Déclenche le workflow à chaque push sur main
+
+jobs:
+  build:
+    name: Build & Test on Windows
+    runs-on: windows-latest  # Exécuter le workflow sous Windows
+
+    steps:
+      - name: 📥 Cloner le dépôt
+        uses: actions/checkout@v4
+
+      - name: 📦 Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📜 Installer les dépendances
+        run: npm install
+
+      - name: 🔎 Vérifier le formatage du code
+        run: npm run lint
+
+      - name: 🛠 Lancer les tests
+        run: npm test
+
+      - name: 🚀 Construire l'application
+        run: npm run build
+
+  deploy:
+    name: Deploy App
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+      - name: 📥 Cloner le dépôt
+        uses: actions/checkout@v4
+
+      - name: 🚀 Déployer l'application (Exemple)
+        run: echo "Déploiement sur Windows terminé !"
